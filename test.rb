@@ -1,16 +1,18 @@
 require 'yaml'
 require './lib/libdejong'
 
-g = LibDeJong::Generator.new
+g = LibDeJong::Generator.new (640 * 2)
 
-160.upto(160) do |x|
-  0.upto(g.image_size) do |y|
+30.upto(30) do |y|
+  30.upto(g.image_size) do |x|
     p = LibDeJong::Point.new x, y
     f = nil
     unless g.frame_exists? p
-      puts "Generating #{x},#{y}"
+      t1 = Time.now
       f = g.generate_frame( LibDeJong::Point.new( x, y ) )
       LibDeJong::FrameWriter.write_raw(f)
+      #LibDeJong::FrameWriter.write_zip(f)
+      puts "Generated #{x},#{y} in #{Time.now - t1}"
     end
     f = LibDeJong::FrameWriter.read_raw g.frame_filename p if f.nil?
 

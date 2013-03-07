@@ -19,4 +19,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency("yajl-ruby")
   s.add_dependency("chunky_png")
+  s.add_dependency("zipruby")
 end
