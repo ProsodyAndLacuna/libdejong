@@ -40,7 +40,6 @@ CSV.foreach(file, :col_sep => ",") do |row|
   color = ChunkyPNG::Color.rgb(0,0,0)
 
   if File.exists? fname 
-    frame = LibDeJong::FrameWriter.read_raw( fname )
     imagename = "dejong-1024-#{p.to_filename_part}-#{ChunkyPNG::Color.to_hex(color, false)}.png"
     imagenamedir = File.join( options[:output], imagename )
 
@@ -51,7 +50,9 @@ CSV.foreach(file, :col_sep => ",") do |row|
       puts "File #{seqname} exists, skipping"
     else
       if !File.exists? imagenamedir
+        frame = LibDeJong::FrameWriter.read_raw( fname )
         LibDeJong::FrameWriter.write frame, options[:output], background, 255, imagename
+        puts "wrote #{imagename}"
       end
 
       if File.exists? imagenamedir
