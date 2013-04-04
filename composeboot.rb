@@ -75,10 +75,11 @@ files.each do |f|
   
   if !File.exists? newfile
     of = ChunkyPNG::Image.from_file f
-    nf = ChunkyPNG::Image.new options[:output_x], options[:output_y], ChunkyPNG::Color::TRANSPARENT
-    xy = compute_new_xy tokens[2].to_f, tokens[3].to_f, options
+    nf = ChunkyPNG::Image.new options[:output_x], options[:output_y], ChunkyPNG::Color::BLACK
+    xy = compute_new_xy options[:original_x] / 2.0, options[:original_y] / 2.0, options
     status xy, File.basename(f), seq.to_f, files.length.to_f, start, actual
     nf.replace! of, xy[:x], xy[:y]
+    #nf = nf.rotate_left
     nf.save newfile
     actual += 1
   else

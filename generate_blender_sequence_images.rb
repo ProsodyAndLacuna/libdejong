@@ -36,7 +36,9 @@ OptionParser.new do |opts|
   opts.on("--keyframes-only", "only generate keyframes") do |v|
     options[:keyframesonly] = true
   end
-
+  opts.on("--boot", "generate for boot") do |v|
+    options[:boot] = true
+  end
 
 end.parse!
 
@@ -56,6 +58,7 @@ CSV.foreach(file, :col_sep => ",") do |row|
   p = LibDeJong::Point.new x, y
   fname = File.join( options[:data], "dejong-1024-#{p.to_filename_part}.json.gz" )
   background = ChunkyPNG::Color::TRANSPARENT
+  background = ChunkyPNG::Color::BLACK if options[:boot]
   color = ChunkyPNG::Color.rgb(r,g,b)
 
   if File.exists? fname 
